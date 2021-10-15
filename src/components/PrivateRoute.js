@@ -1,6 +1,5 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
-import { rest } from "msw";
 
 
 function PrivateRoute({ component: Component, ...rest}) {

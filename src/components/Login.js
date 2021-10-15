@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
+// import axios from 'axios';
+import axiosWithAuth from '../utils/axiosWithAuth';
 
 class Login extends React.Component {
     state = {
@@ -20,10 +21,11 @@ class Login extends React.Component {
     }
     login = event => {
         event.preventDefault()
-        axios.post('http://localhost:5000/api/login', this.state.credentials)
+        axiosWithAuth()
+        .post('/login', this.state.credentials)
             .then(response => {
                 console.log(response);
-                localStorage.setItem('token', response.data)
+                localStorage.setItem('token', response.data.token)
                 this.props.history.push('/view')
             })
             .catch(error => {
