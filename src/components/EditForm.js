@@ -21,7 +21,7 @@ const EditForm = (props)=> {
             setArticle(response.data)
         })
         .catch(error => {
-            console.log('articles error', error);
+            console.log('edit articles error', error);
         })
     }, [])
 

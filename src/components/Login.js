@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 // import axios from 'axios';
 import axiosWithAuth from '../utils/axiosWithAuth';
+import credentials from '../mocks/credentials';
 
 class Login extends React.Component {
     state = {
@@ -24,14 +25,16 @@ class Login extends React.Component {
         axiosWithAuth()
         .post('/login', this.state.credentials)
             .then(response => {
-                console.log(response);
                 localStorage.setItem('token', response.data.token)
+                this.setState({
+                    errorMessage: ''
+                })
                 this.props.history.push('/view')
             })
-            .catch(error => {
-                console.log(error.response.data)
+            .catch(err => {
                 this.setState({
-                    errorMessage: error.response.data
+                    ...this.state,
+                    errorMessage: err.response.data
                 })
             })
     }
@@ -41,26 +44,28 @@ class Login extends React.Component {
                 <ModalContainer>
                     <h1>Welcome to Blogger Pro</h1>
                     <h2>Please enter your account information.</h2>
-                    <Label>
+                    <div>
                         <FormGroup onSubmit = {this.login}>
+                            <Label htmlFor='username'>Username</Label>
                             <Input 
                                 type = 'text'
                                 id = 'username'
-                                name = 'usename'
+                                name = 'username'
                                 value = {this.state.credentials.username}
-                                onchange = {this.handleChange}
+                                onChange = {this.handleChange}
                             />
+                            <Label htmlFor='password'>Password</Label>
                             <Input 
-                                type = 'text'
+                                type = 'password'
                                 id = 'password'
                                 name = 'password'
                                 value = {this.state.credentials.password}
-                                onchange = {this.handleChange}
+                                onChange = {this.handleChange}
                             />
-                            <Button id = 'submit'>Log In</Button>
+                            <Button onClick={this.login} id='submit'>Log in</Button>
                         </FormGroup>
-                        <p id = 'error'>{this.errorMessage}</p>
-                    </Label>
+                        {this.state.errorMessage && <p id='error'>{this.errorMessage}Credentials Not Correct</p>}
+                    </div>
                 </ModalContainer>
             </ComponentContainer>);
     }

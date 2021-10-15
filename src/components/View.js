@@ -5,7 +5,6 @@ import Article from './Article';
 import EditForm from './EditForm';
 import articleService from '../services/articleServices';
 import axiosWithAuth from '../utils/axiosWithAuth';
-import { response } from 'msw';
 
 const View = (props) => {
     const [articles, setArticles] = useState([]);
@@ -15,7 +14,7 @@ const View = (props) => {
     useEffect(() => {
         articleService()
         .then(response => {
-            console.log(response);
+            // console.log(response);
             setArticles(response.data)
         })
         .catch(error => {
